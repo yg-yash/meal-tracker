@@ -25,7 +25,4 @@ services:
         destination: /index.html
     envVars:
       - key: REACT_APP_API_URL
-        fromService:
-          name: meal-tracker-api
-          type: web
-          property: url
+        value: https://meal-tracker-api.onrender.com
