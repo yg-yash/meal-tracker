@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
+import API from '../../config/api';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
 import setAuthToken from '../../utils/setAuthToken';
@@ -40,7 +41,7 @@ const AuthState = props => {
     }
 
     try {
-      const res = await axios.get('/auth/profile');
+      const res = await axios.get(API.auth.profile);
 
       dispatch({
         type: USER_LOADED,
@@ -60,7 +61,7 @@ const AuthState = props => {
     };
 
     try {
-      const res = await axios.post('/auth/register', formData, config);
+      const res = await axios.post(API.auth.register, formData, config);
 
       // Set the token in localStorage
       localStorage.setItem('token', res.data.token);
@@ -92,7 +93,7 @@ const AuthState = props => {
     };
 
     try {
-      const res = await axios.post('/auth/login', formData, config);
+      const res = await axios.post(API.auth.login, formData, config);
 
       // Set the token in localStorage
       localStorage.setItem('token', res.data.token);

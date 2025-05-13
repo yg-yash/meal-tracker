@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API from '../../config/api';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -33,7 +34,7 @@ const FoodDetails = () => {
   useEffect(() => {
     const fetchFoodDetails = async () => {
       try {
-        const res = await axios.post('/calories/get-nutrition-by-id', { 
+        const res = await axios.post(API.calories.getNutritionById, { 
           foodId: id,
           servings: 1
         });
@@ -67,7 +68,7 @@ const FoodDetails = () => {
     }
 
     try {
-      await axios.post('/meal-log/add', {
+      await axios.post(API.mealLog.add, {
         food_name: food.food_name,
         servings: servings,
         calories: food.calories_per_serving * servings,

@@ -44,6 +44,7 @@ import {
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
+import API from '../../config/api';
 import { format } from 'date-fns';
 
 // Styled components for custom UI elements
@@ -122,7 +123,7 @@ const Dashboard = () => {
 
   const fetchRecentMeals = async () => {
     try {
-      const res = await axios.get('/meal-log?limit=5');
+      const res = await axios.get(`${API.mealLog.getAll}?limit=5`);
       setRecentMeals(res.data.meals || []);
     } catch (err) {
       console.error('Error fetching recent meals:', err);
@@ -141,7 +142,9 @@ const Dashboard = () => {
       const endDate = new Date(today);
       endDate.setHours(23, 59, 59, 999);
       
-      const res = await axios.get(`/meal-log/summary?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`);
+      const baseUrl = API.mealLog.summary;
+      const params = `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
+      const res = await axios.get(`${baseUrl}${params}`);
       
       if (res.data.summary && res.data.summary.length > 0) {
         setNutritionSummary(res.data.summary[0]);
@@ -174,7 +177,7 @@ const Dashboard = () => {
     if (!mealToDelete) return;
     
     try {
-      await axios.delete(`/meal-log/${mealToDelete._id}`);
+      await axios.delete(API.mealLog.delete(mealToDelete._id));
       setSuccessMessage('Meal deleted successfully');
       setDeleteDialogOpen(false);
       

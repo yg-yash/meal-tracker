@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import API from '../../config/api';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -60,7 +61,7 @@ const FoodSearch = () => {
     setError(null);
     
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL || ''}/api/calories/search-foods`, { query: searchQuery });
+      const res = await axios.post(API.calories.search, { query: searchQuery });
       setSearchResults(res.data.results || []);
       setLoading(false);
     } catch (err) {
@@ -74,7 +75,7 @@ const FoodSearch = () => {
     setLoadingNutrition(true);
     
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL || ''}/api/calories/get-nutrition-by-id`, { 
+      const res = await axios.post(API.calories.getNutritionById, { 
         foodId: food.id,
         servings: 1
       });
@@ -112,7 +113,7 @@ const FoodSearch = () => {
     }
 
     try {
-      await axios.post('/meal-log/add', {
+      await axios.post(API.mealLog.add, {
         food_name: nutritionData.food_name,
         servings: servings,
         calories: nutritionData.calories_per_serving * servings,

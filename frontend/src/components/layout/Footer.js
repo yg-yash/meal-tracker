@@ -12,9 +12,10 @@ const Footer = () => {
       sx={{
         py: 3,
         px: 2,
-
+        mt: 'auto',
         backgroundColor: theme.palette.primary.dark,
         color: 'white',
+        position: 'fixed',
         bottom: 0,
         width: '100%',
         boxShadow: '0 -4px 10px rgba(0, 0, 0, 0.1)',

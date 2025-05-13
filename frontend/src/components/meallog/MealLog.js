@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API from '../../config/api';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -59,7 +60,7 @@ const MealLog = () => {
   const fetchMeals = async () => {
     setLoading(true);
     try {
-      let url = '/meal-log';
+      let url = API.mealLog.getAll;
       const params = new URLSearchParams();
       
       if (startDate) {
@@ -74,8 +75,11 @@ const MealLog = () => {
         params.append('meal_type', mealTypeFilter);
       }
       
+      // Create the full URL with query parameters
       if (params.toString()) {
-        url += `?${params.toString()}`;
+        // If the URL already has a query string, append with &, otherwise with ?
+        const separator = url.includes('?') ? '&' : '?';
+        url = `${url}${separator}${params.toString()}`;
       }
       
       const res = await axios.get(url);
@@ -102,7 +106,7 @@ const MealLog = () => {
     if (!mealToDelete) return;
     
     try {
-      await axios.delete(`/meal-log/${mealToDelete._id}`);
+      await axios.delete(API.mealLog.delete(mealToDelete._id));
       setSuccessMessage('Meal deleted successfully');
       setDeleteDialogOpen(false);
       fetchMeals();

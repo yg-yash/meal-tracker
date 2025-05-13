@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API from '../../config/api';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -67,7 +68,9 @@ const MealSummary = () => {
     
     setLoading(true);
     try {
-      const res = await axios.get(`/meal-log/summary?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`);
+      const baseUrl = API.mealLog.summary;
+      const params = `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
+      const res = await axios.get(`${baseUrl}${params}`);
       
       const summaryData = res.data.summary || [];
       setSummary(summaryData);
